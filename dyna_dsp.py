@@ -1,10 +1,13 @@
 import numpy as np
 import scipy.signal as sps
-# from pyaudio import PyAudio, paFloat32
 import pyaudio as pa
 import struct
 import wave
 import time
+from __future__ import print_function
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Global Variables
 sampling_frequency = 48000 # Hz
@@ -32,6 +35,10 @@ sweep_in_rms = 0.0
 calib_play = pa.PyAudio()
 calib_recd = pa.PyAudio()
 audio = pa.PyAudio()
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
 sweep = wave.open('sine_sweep_linear.wav', 'rb')
 
 # This method is used if there is more than one Microphone.
@@ -281,13 +288,15 @@ def calibrate():
                                channels = channel_count, 
                                rate = sweep.getframerate(), 
                                input = False, output = True, 
-                               input_device_index = get_Mics()[0])
+                               input_device_index = get_Mics()[0], 
+                               output_device_index = get_Spkrs()[0])
     # Record
     stream_2 = calib_recd.open(format = pa.get_format_from_width(sweep.getsampwidth()), 
                                channels = channel_count, 
                                rate = sweep.getframerate(), 
                                input = True, output = False, 
                                input_device_index = get_Mics()[1], 
+                               output_device_index = get_Spkrs()[0], 
                                frames_per_buffer = samples_chunk)
     
     frames = []
@@ -336,6 +345,7 @@ def main():
                           rate = sampling_frequency, input = True, 
                           output = False, # Change output = True to hear the Mics 
                           input_device_index = get_Mics()[0], 
+                          output_device_index = get_Spkrs()[0], 
                           frames_per_buffer = samples_chunk, 
                           stream_callback = callback_1)
     # Mic 2
@@ -343,6 +353,7 @@ def main():
                           rate = sampling_frequency, input = True, 
                           output = False, # Change output = True to hear the Mics 
                           input_device_index = get_Mics()[1], 
+                          output_device_index = get_Spkrs()[0], 
                           frames_per_buffer = samples_chunk, 
                           stream_callback = callback_2)
     
