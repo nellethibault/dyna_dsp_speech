@@ -6,4 +6,7 @@ Two Mics of 4 channels, 1 set of Speakers 2 channels.
 For both mics in recording devices > mic properties > levels > 75 out of 100 each.                                                         
 Select 1 set of speakers as output device. No more than 2 channels of output, that is, only one set of speakers as default output device. 
 Open Spyder and run dyna_dsp.py                                                                                                           
----
+
+
+
+Use new_dyna_dsp or new_dyna_dsp_nofunc.
