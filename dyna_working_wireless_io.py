@@ -9,8 +9,6 @@ from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Instantiations
-calib_play = pa.PyAudio()
-calib_recd = pa.PyAudio()
 audio = pa.PyAudio()
 devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
