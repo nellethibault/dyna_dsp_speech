@@ -205,6 +205,7 @@ def process():
     
     return None
 
+unmute()
 process()
 
 # End of File
