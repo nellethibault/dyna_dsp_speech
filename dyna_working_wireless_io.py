@@ -59,7 +59,7 @@ def get_All_Spkrs():
     all_spkrs_index = []
     for i in range(audio.get_device_count()):
         devices = audio.get_device_info_by_index(i)
-        if (devices['maxOutputChannels'] > 0):
+        if (devices['maxInputChannels'] == 0):
             if (('Speaker' in devices['name']) or ('Head' in devices['name'])):
                 all_spkrs_index.append(devices['index'])
     return all_spkrs_index
