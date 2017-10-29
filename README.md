@@ -9,4 +9,4 @@ Open Spyder and run dyna_dsp.py
 
 
 
-Use new_dyna_dsp or new_dyna_dsp_nofunc.
+Use dyna_working.py
