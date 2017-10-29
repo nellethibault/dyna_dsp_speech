@@ -2,7 +2,7 @@ from __future__ import print_function
 import numpy as np
 import pyaudio as pa
 import struct
-import wave
+#import wave
 import time
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
@@ -16,7 +16,7 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
-sweep = wave.open('pinknoise.wav', 'rb')
+#sweep = wave.open('pinknoise.wav', 'rb')
 
 # Global Variables
 sampling_frequency = 48000 # Hz
