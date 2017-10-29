@@ -46,14 +46,14 @@ for i in range(audio.get_device_count()):
     
 stream_1 = audio.open(format = sampling_format, channels = channel_count, 
                       rate = sampling_frequency, input = True, 
-                      output = False, # Change output = True to hear the Mics 
+                      output = True, # Change output = True to hear the Mics 
                       input_device_index = mic_index[0], 
                       output_device_index = spkr_index[0], 
                       frames_per_buffer = samples_chunk)
 
 stream_2 = audio.open(format = sampling_format, channels = channel_count, 
                       rate = sampling_frequency, input = True, 
-                      output = False, # Change output = True to hear the Mics 
+                      output = True, # Change output = True to hear the Mics 
                       input_device_index = mic_index[1], 
                       output_device_index = spkr_index[0], 
                       frames_per_buffer = samples_chunk)
@@ -76,13 +76,13 @@ while True:
     
         if (dB_avg <= dB_threshold):
             if dB_avg > prev_dB_avg:
-                volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) + 0.1, None)
+                volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) + 0.5, None)
             elif dB_avg < prev_dB_avg:
-                volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) - 0.1, None)
+                volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) - 0.5, None)
             else:
                 volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1), None)
         else:
-            volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) - 0.1, None)
+            volume.SetMasterVolumeLevel(round(volume.GetMasterVolumeLevel(), 1) - 0.5, None)
     time.sleep(0.1)
 
 stream_1.stop_stream()

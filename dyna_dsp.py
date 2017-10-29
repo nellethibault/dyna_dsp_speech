@@ -1,10 +1,10 @@
+from __future__ import print_function
 import numpy as np
 import scipy.signal as sps
 import pyaudio as pa
 import struct
 import wave
 import time
-from __future__ import print_function
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume

@@ -71,8 +71,7 @@ def decr_vol():
     #interface = devices.Activate(
             #IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     #volume = cast(interface, POINTER(IAudioEndpointVolume))
-    vol = (volume.GetMasterVolumeLevel() - 0.1)
-    volume.SetMasterVolumeLevel(vol, None)
+    volume.SetMasterVolumeLevel((volume.GetMasterVolumeLevel() - 0.2), None)
     #print ('Volume Decreased !')
     return None
 
@@ -81,20 +80,18 @@ def incr_vol():
     #interface = devices.Activate(
             #IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     #volume = cast(interface, POINTER(IAudioEndpointVolume))
-    vol = (volume.GetMasterVolumeLevel() + 0.1)
-    volume.SetMasterVolumeLevel(vol, None)
+    volume.SetMasterVolumeLevel((volume.GetMasterVolumeLevel() + 0.2), None)
     #print ('Volume Increased !')
     return None
 
-#def same_vol():
-#    #devices = AudioUtilities.GetSpeakers()
-#    #interface = devices.Activate(
-#            #IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-#    #volume = cast(interface, POINTER(IAudioEndpointVolume))
-#    vol = volume.GetMasterVolumeLevel()
-#    volume.SetMasterVolumeLevel(vol, None)
-#    #print ('Volume Unchanged !')
-#    return None
+def same_vol():
+    #devices = AudioUtilities.GetSpeakers()
+    #interface = devices.Activate(
+            #IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    #volume = cast(interface, POINTER(IAudioEndpointVolume))
+    volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel(), None)
+    #print ('Volume Unchanged !')
+    return None
     
 def process():
     stream_1 = audio.open(format = sampling_format, channels = channel_count, 
@@ -132,6 +129,7 @@ def process():
                 #same_vol()
         else:
             decr_vol()
+        #prev_dB_avg = dB_avg
     stream_1.stop_stream()
     stream_2.stop_stream()
     return None
