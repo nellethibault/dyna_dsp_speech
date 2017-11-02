@@ -58,21 +58,21 @@ def get_range():
     return volume.GetVolumeRange()
 
 def same_vol():
-    volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel(), None)
+    volume.SetMasterVolumeLevelScalar(volume.GetMasterVolumeLevelScalar(), None)
     return None
 
 def decr_vol():
-    if volume.GetMasterVolumeLevel() > (get_range()[0] + 46.15): # strictly >
-        volume.SetMasterVolumeLevel((volume.GetMasterVolumeLevel() - 0.5), None)
+    if volume.GetMasterVolumeLevelScalar() > (0.30): # strictly > 30%
+        volume.SetMasterVolumeLevelScalar((volume.GetMasterVolumeLevelScalar() - 0.01), None)
     else:
-        volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel(), None)
+        volume.SetMasterVolumeLevelScalar(volume.GetMasterVolumeLevelScalar(), None)
     return None
 
 def incr_vol():
-    if volume.GetMasterVolumeLevel() < (get_range()[1] - 2.50): # strictly <
-        volume.SetMasterVolumeLevel((volume.GetMasterVolumeLevel() + 0.5), None)
+    if volume.GetMasterVolumeLevelScalar() < (0.99): # strictly < 99%
+        volume.SetMasterVolumeLevelScalar((volume.GetMasterVolumeLevelScalar() + 0.01), None)
     else:
-        volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel(), None)
+        volume.SetMasterVolumeLevelScalar(volume.GetMasterVolumeLevelScalar(), None)
     return None
 
 # Designed for Two Channels only
