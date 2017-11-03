@@ -21,7 +21,7 @@ sampling_frequency = 48000 # Hz
 samples_chunk = 4800
 samples_width = 2
 channel_count = 2
-dB_threshold = 60
+dB_threshold = 70
 dB_error_correct = 70 # Change this to level of dBSPL
 dB_channels = np.array(np.ones(4, dtype=np.float32))
 dB_chs_mean = np.mean(dB_channels)
@@ -80,14 +80,16 @@ def same_vol():
     return None
 
 def decr_vol():
-    if volume.GetMasterVolumeLevelScalar() > (0.30): # strictly > 30%
+    # Default Minimum is 20% -> If Parseval Higher (+0.05 or 5%) Elif Parseval Lower (-0.05 or 5%) ELse No Change (0.0 or 0%)
+    if volume.GetMasterVolumeLevelScalar() > (0.20): # strictly > 20%
         volume.SetMasterVolumeLevelScalar((volume.GetMasterVolumeLevelScalar() - 0.01), None)
     else:
         volume.SetMasterVolumeLevelScalar(volume.GetMasterVolumeLevelScalar(), None)
     return None
 
 def incr_vol():
-    if volume.GetMasterVolumeLevelScalar() < (0.99): # strictly < 99%
+    # Default Maximum Never Changes - Constant at 98% or 0.98
+    if volume.GetMasterVolumeLevelScalar() < (0.98): # strictly < 98%
         volume.SetMasterVolumeLevelScalar((volume.GetMasterVolumeLevelScalar() + 0.01), None)
     else:
         volume.SetMasterVolumeLevelScalar(volume.GetMasterVolumeLevelScalar(), None)
@@ -184,7 +186,7 @@ def process():
     stream_2 = audio.open(format = pa.paFloat32, channels = channel_count, 
                           rate = sampling_frequency, input = True, 
                           output = False, # Change output = True to hear the Mics 
-                          input_device_index = get_All_Mics()[1], 
+                          input_device_index = get_All_Mics()[0], 
                           output_device_index = get_All_Spkrs()[0], 
                           frames_per_buffer = samples_chunk, 
                           stream_callback = callback_2)
