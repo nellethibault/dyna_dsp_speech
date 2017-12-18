@@ -11,10 +11,11 @@ voices = tts.getProperty('voices')
 # tts.setProperty('voice', voices[1].id)
 
 with sr.Microphone() as source:
-    sr.Recognizer().adjust_for_ambient_noise(source) # Do this only once - multiple times if necessary
+    sr.Recognizer().adjust_for_ambient_noise(source, duration=5) # Do this only once - multiple times if necessary
 
 tts.setProperty('voice', random.choice(voices).id)
-tts.say('you just turned me on')
+#tts.say('you just turned me on')
+tts.say('i am online')
 tts.say('say something, i repeat what you say')
 tts.runAndWait()
 time.sleep(1.0)
