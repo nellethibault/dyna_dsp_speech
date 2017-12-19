@@ -15,3 +15,4 @@ Process:
             Combine two channels in a mic to make single mic input (avaerage channels)
             Now we have one input one outut pair.
 '''
+
