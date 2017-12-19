@@ -12,7 +12,7 @@ Process:
         NOTE:
             One pair of speaker is one device
             So, one speaker is one of the pair (if mono)
-            Combine two channels in a mic to make single mic input (avaerage channels)
+            Combine two channels in a mic to make single mic input (average channels)
             Now we have one input one outut pair.
 '''
 
