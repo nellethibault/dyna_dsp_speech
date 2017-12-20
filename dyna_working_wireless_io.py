@@ -2,7 +2,6 @@ from __future__ import print_function
 import numpy as np
 import pyaudio as pa
 import struct
-#import wave
 import time
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
@@ -14,7 +13,6 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
-#sweep = wave.open('pinknoise.wav', 'rb')
 
 # Global Variables
 sampling_frequency = 48000 # Hz
@@ -171,6 +169,35 @@ def callback_2(in_data, frame_count, time_info, status):
     #out_data = [in_data_ch1 * gain_overall, in_data_ch1 * gain_overall]
     #out_data = write_2ch_out_data(out_data)
     return (in_data, pa.paContinue)
+
+def get_Mic_Spkr_Pairs():
+    '''
+    Process:
+        Choose one Speaker - one speaker is one channel always
+        Now locate the nearest Microphone to that speaker:
+            Play a sound on that speaker:
+                While sound is on:
+                    Record a sample length in all microphones
+                    and store the avarage of all the mics in an array
+                The maximum value of volume of mics in the list is the closest mic
+                The closest mic index is the mic's device index.
+                Now pair up speaker channel to microphone as tuple
+            NOTE:
+                One pair of speaker is one device
+                So, one speaker is one of the pair (if mono)
+                Combine two channels in a mic to make single mic input (average channels)
+                Now we have one input one outut pair.
+    '''
+    mics = get_All_Mics()
+    spkrs = get_All_Spkrs()
+    # For Every Speaker in the Speakers List
+    for s in spkrs:
+        # For Every Microphone that is attached to the Computer
+        for m in mics:
+            # Define Pink Noise Generation Function
+            # Play a Pink Noise Sample for No. of Mics times
+    return None
+
 
 def process():
     print ('Running Main Loop ...')
