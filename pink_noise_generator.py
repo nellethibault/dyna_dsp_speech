@@ -1,10 +1,11 @@
 import numpy as np
-import scipy.io.wavfile as wf
+import scipy.io.wavfile as spwf
 import pyaudio as pa
 import time
+import wave
 
 # Instantiations
-#audio = pa.PyAudio()
+audio = pa.PyAudio()
 #devices = AudioUtilities.GetSpeakers()
 #interface = devices.Activate(
 #        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
@@ -52,6 +53,7 @@ def pinknoise(n_samples):
     out_pink = out_pink / np.std(out_pink)
     
     # Return out_pink - a row vector of pink (flicker) noise samples
+    out_pink = out_pink.astype(np.float32)
     return out_pink
 
 fs = 48000
@@ -65,6 +67,12 @@ print('Time Taken to Generate Pink Noise for T = %.2f Secs is %.3f Secs.' % (T, 
 
 # For Two Channels
 pink_noise = np.vstack([xpink, xpink]).T
-wf.write('pypinknoise.wav', fs, pink_noise) # Can be Played only on VLC Media Player
+#spwf.write('pypinknoise.wav', fs, pink_noise)
+wf = wave.open('pypinknoise.wav', 'wb')
+wf.setnchannels(2)
+wf.setsampwidth(audio.get_sample_size(pa.paFloat32))
+wf.setframerate(fs)
+wf.writeframes(b''.join(pink_noise))
+wf.close()
 
 # End of File
