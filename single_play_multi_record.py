@@ -6,7 +6,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paFloat32
 CHANNELS = 2
 RATE = 48000
-RECORD_SECONDS = 1
+RECORD_SECONDS = 2
 
 wf = wave.open('pypinknoise.wav', 'r')
 
@@ -18,21 +18,15 @@ stream1 = p.open(format=p.get_format_from_width(wf.getsampwidth()),
                 rate=wf.getframerate(),
                 output=True)
 
-data = wf.readframes(CHUNK)
-
-while data != '':
-    stream1.write(data)
-    data = wf.readframes(CHUNK)
-
-stream1.stop_stream()
-stream1.close()
-
 # record
 stream2 = p.open(format=FORMAT,
                 channels=CHANNELS,
                 rate=RATE,
                 input=True,
                 frames_per_buffer=CHUNK)
+
+data = wf.readframes(wf.getnframes())
+stream1.write(data)
 
 print("* recording")
 
@@ -44,10 +38,24 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
 
 print("* done recording")
 
-frames = b''.join(frames)
-spwf.write('pinkrecord.wav', RATE, frames)
+
+stream1.stop_stream()
+stream1.close()
+
 
 stream2.stop_stream()
 stream2.close()
+
+
+
+
+frames = b''.join(frames)
+wf = wave.open('pinkrecord.wav', 'wb')
+wf.setnchannels(2)
+wf.setsampwidth(p.get_sample_size(pyaudio.paFloat32))
+wf.setframerate(RATE)
+wf.writeframes(frames)
+wf.close()
+
 
 p.terminate()
