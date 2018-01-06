@@ -98,7 +98,7 @@ def read_2ch_in_data(in_data):
     chnls = 2
     in_data_ch1, in_data_ch2 = [], []
     for i in range(0, int(len(in_data)), int(4*chnls)):
-        in_data_ch1.append(struct.unpack('f', in_data[i:i+4])[0])
+        in_data_ch1.append(struct.unpack('f', in_data[i+0:i+4])[0])
         in_data_ch2.append(struct.unpack('f', in_data[i+4:i+8])[0])
     in_data_ch1 = np.array(in_data_ch1)
     in_data_ch2 = np.array(in_data_ch2)
@@ -133,7 +133,7 @@ def callback_1(in_data, frame_count, time_info, status):
     global dB_channels, dB_chs_mean
     dB_chs_mean = np.mean(dB_channels)
     dB_channels[0] = calc_dBSPL(in_data_ch1)
-    dB_channels[1] = calc_dBSPL(in_data_ch1)
+    dB_channels[1] = calc_dBSPL(in_data_ch2)
     if int(np.mean(dB_channels)) <= dB_threshold:
         if (int(np.mean(dB_channels)) > int(dB_chs_mean)): # >
             incr_vol()
@@ -155,7 +155,7 @@ def callback_2(in_data, frame_count, time_info, status):
     global dB_channels, dB_chs_mean
     dB_chs_mean = np.mean(dB_channels)
     dB_channels[2] = calc_dBSPL(in_data_ch1)
-    dB_channels[3] = calc_dBSPL(in_data_ch1)
+    dB_channels[3] = calc_dBSPL(in_data_ch2)
     if int(np.mean(dB_channels)) <= dB_threshold:
         if (int(np.mean(dB_channels)) > int(dB_chs_mean)): # >
             incr_vol()
