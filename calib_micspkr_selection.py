@@ -191,6 +191,9 @@ for s in spkrs:
         plt.plot(dbs, 'r')
         # plt.figure()
         # plt.plot(rmss, 'b')
+        # here take the  second half ofthe dbs - average them
+        # make a [spkr, micavgdbval] pair as list of lists
+        # max micavgdbval for that spkr is the closest mic of that spkr
         time.sleep(1.0)
 
 audio.terminate()
